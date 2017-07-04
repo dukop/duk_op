@@ -34,6 +34,9 @@ DetSker::Application.routes.draw do
     end
   end
 
+  get 'feed.rss', :controller => 'feeds', :action => 'rss', :format => 'rss'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -106,4 +106,5 @@ class EventsController < ApplicationController
       list.delete(:featured) unless current_user.is_admin? # only admins can update featured value
     end
   end
+
 end
