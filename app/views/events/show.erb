@@ -31,6 +31,9 @@
     <%= auto_link(simple_format(@event.long_description)) %>
   </p>
 
+  <p>
+    <%= link_to(t('events.event.download_ics'), event_path(@event, format=:ics))%>
+  </p>
 
   <% if @event.link.present? %>
       <p>

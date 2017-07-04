@@ -125,6 +125,9 @@ da:
       confirm_delete: "Er du sikker på du vil slette denne begivenhed?"
       see_more: "Læs mere..."
       posted_by: "Skrevet af"
+      download_ics: "Download til kalender (ICS)"
+    ics:
+      prodid: "Dukop.dk"
     edit:
       edit_event: "Redigerer begivenhed"
     new:

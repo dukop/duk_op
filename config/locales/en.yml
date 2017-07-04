@@ -124,6 +124,9 @@ en:
       confirm_delete: "Are you sure you want to delete this event?"
       see_more: "Read more..."
       posted_by: "Posted by"
+      download_ics: "Download to calender (ICS)"
+    ics:
+      prodid: "Dukop.dk"
     edit:
       edit_event: "Editing event"
     new:

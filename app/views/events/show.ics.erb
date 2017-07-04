@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//<%= t('events.ics.prodid') %>
+X-WR-CALNAME:<%= t('events.ics.prodid') %>
+X-WR-TIMEZONE:"UTC"
+BEGIN:VEVENT
+DTSTAMP:<%= DateTime.now.strftime('%Y%m%dT%H%M%SZ') %>
+UID:<%= @event.id %>
+DTSTART:<%= @event.start_time.utc.strftime('%Y%m%dT%H%M%SZ') %>
+DTEND:<%= @event.end_time.utc.strftime('%Y%m%dT%H%M%SZ') %>
+SUMMARY:<%= @event.title %>
+DESCRIPTION:<%= @event.short_description %>
+<%= @event.long_description %>
+LOCATION:<%= @event.location.full_address %>
+END:VEVENT
+END:VCALENDAR
+
