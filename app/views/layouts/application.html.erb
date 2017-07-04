@@ -24,6 +24,9 @@
       window.i18n = <%= current_translations.to_json.html_safe %>;
       window.locale = '<%= I18n.locale %>';
   </script>
+
+  <link rel="alternate" type="application/rss+xml" title="Dukop RSS Feed" href="/feed.rss">
+
 </head>
 <body>
 
