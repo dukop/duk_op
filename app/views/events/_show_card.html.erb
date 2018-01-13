@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card__layout">
+        <div class="card__media">
+            <%= presenter.picture_tag %>
+        </div>
+        <div class="card__text">
+            <div class="card__header">
+                <div class="card__date">
+                    <%= presenter.date %>
+                </div>
+                <div class="card__place card__link">
+                    <%= presenter.location %>
+                </div>
+                <div class="card__util card__link card__more">
+                    <%= presenter.ics_link %>
+                </div>
+            </div>
+            <div class="card__main">
+                <h1 class="card__title">
+                    <%= presenter.title %>
+                </h1>
+                <%= presenter.more_description %>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -11,21 +11,21 @@ describe CommentsController do
 
     it 'should create a comment object when sent valid parameters' do
         expect {
-          post :create, comment: FactoryGirl.attributes_for(:comment, event_id: @event.id)
+          post :create, params: { comment: FactoryGirl.attributes_for(:comment, event_id: @event.id) }
         }.to change(Comment, :count).by(1)
     end
 
     it 'should not create a comment object without an associated event' do
       expect {
-        post :create, comment: FactoryGirl.attributes_for(:comment)
-      }.to_not change(Comment, :count).by(1)
+        post :create, params: { comment: FactoryGirl.attributes_for(:comment) }
+      }.to_not change(Comment, :count)
     end
 
     it 'should not create a comment object without a logged in user' do
       sign_out @user
       expect {
-        post :create, comment: FactoryGirl.attributes_for(:comment, event_id: @event.id)
-      }.to_not change(Comment, :count).by(1)
+        post :create, params: { comment: FactoryGirl.attributes_for(:comment, event_id: @event.id) }
+      }.to_not change(Comment, :count)
     end
 
     it 'should not allow anonymous users to leave comments' do
@@ -33,8 +33,8 @@ describe CommentsController do
       sign_in FactoryGirl.create(:anonymous_user)
 
       expect {
-        post :create, comment: FactoryGirl.attributes_for(:comment, event_id: @event.id)
-      }.to_not change(Comment, :count).by(1)
+        post :create, params: { comment: FactoryGirl.attributes_for(:comment, event_id: @event.id) }
+      }.to_not change(Comment, :count)
     end
   end
 
@@ -49,7 +49,7 @@ describe CommentsController do
     end
 
     it 'should allow a user to update their comment' do
-      patch :update, id: @comment, comment: @modified_comment
+      patch :update, params: { id: @comment, comment: @modified_comment }
       @comment.reload
       expect(@comment.content).to eql 'Actually, I reconsider...'
     end
@@ -57,7 +57,7 @@ describe CommentsController do
     it "should not allow a user to update another user's comment" do
       sign_out @user
       sign_in FactoryGirl.create(:different_user)
-      patch :update, id: @comment, comment: @modified_comment
+      patch :update, params: { id: @comment, comment: @modified_comment }
       @comment.reload
       expect(@comment.content).not_to eql 'Actually, I reconsider...'
     end
@@ -65,7 +65,7 @@ describe CommentsController do
     it "should allow an admin user to update another user's comment" do
       sign_out @user
       sign_in FactoryGirl.create(:admin_user)
-      patch :update, id: @comment, comment: @modified_comment
+      patch :update, params: { id: @comment, comment: @modified_comment }
       @comment.reload
       expect(@comment.content).to eql 'Actually, I reconsider...'
     end
@@ -82,24 +82,22 @@ describe CommentsController do
     end
 
     it 'should return a comment object' do
-      get :edit, id: @comment
+      get :edit, params: { id: @comment }
       expect(assigns(:comment)).to eql @comment
     end
 
     it 'should not respond to an unauthorized user' do
       sign_out @user
       sign_in FactoryGirl.create(:different_user)
-      get :edit, id: @comment
+      get :edit, params: { id: @comment }
       expect(response).to redirect_to root_path
     end
 
     it "should allow an admin user to edit another user's comment" do
       sign_out @user
       sign_in FactoryGirl.create(:admin_user)
-      get :edit, id: @comment
+      get :edit, params: { id: @comment }
       expect(assigns(:comment)).to eql @comment
     end
-
   end
-
 end

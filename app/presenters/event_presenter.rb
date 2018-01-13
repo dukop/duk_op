@@ -11,6 +11,38 @@ class EventPresenter
     @object.short_description
   end
 
+  def card_view
+    render partial: '/events/card.html.erb', locals: { presenter: self }
+  end
+
+  def location
+    link_to(@object.location.display_name, @object.location)
+  end
+
+  def time
+    @object.start_time.strftime('%H:%M')
+  end
+
+  def date
+    I18n.localize(@object.start_time, format: :header)
+  end
+
+  def title
+    if @object.cancelled?
+      "<s>#{@object.title}</s> - <span class='text-danger'>#{I18n.t('events.event.cancelled')}</span>".html_safe
+    else
+      @object.title
+    end
+  end
+
+  def teaser
+    truncate(@object.short_description, length: 450, separator: ' ')
+  end
+
+  def more_description
+    auto_link(simple_format(@object.short_description))
+  end
+
   def fb_tags
     tags = []
     tags << fb_url
@@ -61,12 +93,20 @@ class EventPresenter
     end
   end
 
+  def picture_tag
+    image_tag(@object.best_picture, alt: '') if @object.best_picture.present?
+  end
+
   def date_short
     I18n.localize(@object.start_time.to_date, format: :brief)
   end
 
   def fb_tag(type, content)
     tag 'meta', { property: "og:#{type}", content: content }, true
+  end
+
+  def ics_link
+    link_to(t('events.event.download_ics'), event_path(@object, format=:ics))
   end
 
   private

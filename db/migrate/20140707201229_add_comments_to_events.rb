@@ -1,4 +1,4 @@
-class AddCommentsToEvents < ActiveRecord::Migration
+class AddCommentsToEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :comments do |t|
       t.text :content

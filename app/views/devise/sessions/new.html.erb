@@ -1,32 +1,32 @@
-<div class="generic_form">
+<div class="page-container">
+    <div class="generic-form">
+    <h1 class="title"><%= t '.sign_in' %></h2>
 
-<h2><%= t '.sign_in' %></h2>
-
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <div>
-      <%= f.label :email %>
-      <br />
-      <%= f.email_field :email, :autofocus => true %>
-    </div>
-
-    <br/>
-
-    <div>
-      <%= f.label :password %>
-      <br/>
-      <%= f.password_field :password %>
-    </div>
-    <br/>
-    <div>
-      <%= f.submit  t('.sign_in'), id: 'user_sign_in', class: 'btn btn-primary' %>
-      <% if devise_mapping.rememberable? -%>
-          <div>
-            <%= f.check_box :remember_me %> <%= f.label t('.remember_me') %>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+        <div class="generic-form__row">
+          <%= f.label :email, class: 'generic-form__label' %>
+          <div class="generic-form__inputs">
+              <%= f.email_field :email, autofocus: true, class: 'generic-form__input' %>
           </div>
-      <% end -%>
-    </div>
+        </div>
+
+        <div class="generic-form__row">
+          <%= f.label :password, class: 'generic-form__label' %>
+            <div class="generic-form__inputs">
+                <%= f.password_field :password, class: 'generic-form__input' %>
+            </div>
+        </div>
+        <div class="generic-form__row">
+          <% if devise_mapping.rememberable? -%>
+              <%= f.check_box :remember_me %> <%= f.label t('.remember_me'), class: 'generic-form__label' %>
+          <% end -%>
+        </div>
+        <div class="generic-form__row">
+          <%= f.submit  t('.sign_in'), id: 'user_sign_in', class: 'generic-form__submit' %>
+        </div>
+        <br/>
+    <% end %>
     <br/>
-<% end %>
-<br/>
-<%= render "devise/shared/links" %>
+    <%= render "devise/shared/links" %>
+    </div>
 </div>

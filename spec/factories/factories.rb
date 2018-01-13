@@ -28,7 +28,7 @@ FactoryGirl.define do
     title 'Fun party'
     short_description 'really fun party'
     long_description "I'm telling you it's going to be fun!"
-    start_time DateTime.now
+    start_time DateTime.now + 10.minutes
     end_time DateTime.now + 5.hours
     location
     user { FactoryGirl.create(:user) }
@@ -99,13 +99,13 @@ FactoryGirl.define do
 
   factory :event_series do
     description 'Sample description'
-    start_time DateTime.now + 1.hour
-    end_time DateTime.now + 2.hours
+    start_time (DateTime.now + 1.day).midday
+    end_time (DateTime.now + 1.day).midday + 2.hours
     title 'Sample event series'
     rule 'weekly'
     location
     days 'Monday'
-    start_date DateTime.now
+    start_date DateTime.now + 1.day
     expiry DateTime.now + 2.month
     user { FactoryGirl.create(:user) }
     categories {[FactoryGirl.create(:random_category)]}

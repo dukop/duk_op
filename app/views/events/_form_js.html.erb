@@ -1,0 +1,47 @@
+<script>
+  var selectList = document.getElementById('event_category_ids')
+  selectList.addEventListener('change', function(e) {
+    document.forms.createForm.selectList.forEach(function(item) {
+      if (item.checked) {
+        console.log(item.value);
+      }
+    })
+  });
+
+
+  var recurring = document.getElementById('recurring')
+  recurring.addEventListener('change', function(e) {
+    if (e.target.checked) {
+      document.getElementById('recurringForm').style.display = 'block'
+      document.getElementById('timeInput').style.display = 'none'
+    } else {
+      document.getElementById('recurringForm').style.display = 'none'
+      document.getElementById('timeInput').style.display = 'block'
+    }
+  });
+
+
+  var priceCheck = document.getElementById('priceCheck')
+  priceCheck.addEventListener('change', function(e) {
+    if (e.target.checked) {
+      document.getElementById('priceInput').style.display = 'block'
+      document.getElementById('priceInput').focus()
+    } else {
+      document.getElementById('priceInput').style.display = 'none'
+    }
+  });
+
+
+  var uploadFile = document.getElementById('js_button_text')
+  uploadFile.addEventListener('change', function(e) {
+    var file = e.target.value;
+    var filePath = e.target.value.split("\\");
+    var fileName = filePath[filePath.length - 1]
+    if (fileName) {
+      document.getElementById('uploadFileLabel').innerHTML = fileName;
+    } else {
+      document.getElementById('uploadFileLabel').innerHTML = 'Upload fil';
+    }
+
+  });
+</script>

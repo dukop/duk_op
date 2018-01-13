@@ -1,7 +1,7 @@
 <%
    data_attrs = {
     categories: event.categories.collect(&:id).join(' '),
-    location: event.location.display_name.parameterize('_'),
+    location: event.location.display_name.parameterize(separator: '_'),
     role: 'event'
    }
 %>

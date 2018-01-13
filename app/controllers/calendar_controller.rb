@@ -1,7 +1,6 @@
 class CalendarController < ApplicationController
   def index
     @calendar = Calendar.new
-    @posts = Post.where(featured: true)
+    @sorted = @calendar.events.group_by {|e| e.start_time.to_date }
   end
-
 end

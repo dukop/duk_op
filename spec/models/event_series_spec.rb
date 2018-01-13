@@ -79,7 +79,7 @@ describe EventSeries do
     subject { EventSeries.active_weekly }
     context 'a normal series' do
       it 'includes the active series' do
-        FactoryGirl.create(:weekly_series)
+        FactoryGirl.create(:weekly_series, start_date: DateTime.now - 1.day)
         expect(subject.size).to eql 1
       end
     end

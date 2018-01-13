@@ -16,6 +16,7 @@
 *.log
 /tmp
 /.idea
+*.swp
 
 # Ignore uploaded files
 public/system/

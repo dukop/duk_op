@@ -1,47 +1,39 @@
-<% @posts.each do |post| %>
-    <% cache post do %>
-        <div class="alert alert-info center-block">
-          <%= link_to(post.title, post) %>
-        </div>
-    <% end %>
+<% @calendar.highlights.each do |event| %>
+    <%= present(event).card_view %>
 <% end %>
 
-<div class="container">
-  <div class="row featured-container">
-    <% if @calendar.highlights.size > 0 %>
-      <%= render partial: 'highlights', object: @calendar.highlights %>
-    <% end %>
-    <% if @calendar.weekly.size > 0 %>
-      <%= render partial: 'weekly', object: @calendar.weekly %>
-    <% end %>
-  </div>
+<div class="page-container">
+    <%= render partial: 'graph' %>
 </div>
-<div class="row">
-  <div class="col-xs-12">
-    <h2 class="section-heading">
-      <%= t('.title')%>
-    </h2>
-    <div class="row hidden center-block" data-role="filter-description">
-      <%= t '.describe_filters' %>
-    </div>
-  </div>
-  <%= render partial: 'filter_options',
-             locals: {filter_categories: @calendar.filter_categories,
-                      filter_locations: @calendar.filter_locations }
-  %>
-  <div class="container">
-    <div id="calendar-box" class="col-xs-12 col-sm-9 col-sm-pull-2">
-      <% if @calendar.in_progress.size > 0 %>
-          <%= render partial: 'day', object: @calendar.in_progress, locals: { id: 'inProgress' } %>
-      <% end %>
+<div class="page-container">
+        <div class="table">
+            <% @sorted.each do |day, events| %>
+          <div class="table__day table__day--1">
+            <div class="table__header">
+                <%= I18n.localize(day, format: :header) %>
+            </div>
+                <% events.each do |event| %>
+                    <% presenter = present(event) %>
+                <div class="table__event">
+                  <div class="table__time">
+                      <%= presenter.time %>
+                  </div>
+                    <div class="table__title">
+                        <%= presenter.title %>
+                    </div>
+                    <div class="table__place">
+                        <%= presenter.location %>
+                    </div>
+                </div>
+                <% end %>
+            <% end %>
 
-      <% @calendar.days.each do |day| %>
-          <%= render partial: 'day', object: day, locals: { id: day.date}  %>
-      <% end %>
-      </br>
-      <div class="row center-block end-of-events">
-        <p class="text-center text-uppercase"><%= t '.end_of_events' %></p>
+                </div>
+              </div>
+        </div>
       </div>
-    </div>
-  </div>
+<div class="overlay" id="js-overlay">
 </div>
+  </div>
+
+  <%= render partial: 'index_js' %>

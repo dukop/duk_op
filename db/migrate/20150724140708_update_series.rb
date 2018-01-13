@@ -1,4 +1,4 @@
-class UpdateSeries < ActiveRecord::Migration
+class UpdateSeries < ActiveRecord::Migration[4.2]
   def change
     remove_column :event_series, :start_time, :datetime
     remove_column :event_series, :end_time, :datetime

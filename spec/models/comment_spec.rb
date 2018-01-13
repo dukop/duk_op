@@ -6,13 +6,13 @@ describe 'Comment' do
     u = FactoryGirl.create(:user)
     e = FactoryGirl.create(:event)
     comment = Comment.new(content: 'Sample comment', hidden: false, user: u, event: e)
-    expect(comment.save).to be_true
+    expect(comment.save).to be true
     expect(comment.content).to eql 'Sample comment'
   end
 
   it 'should not create a comment without an associated event' do
     u = FactoryGirl.create(:user)
     comment = Comment.new(content: 'Sample comment', hidden: false, user: u)
-    expect(comment.save).not_to be_true
+    expect(comment.save).not_to be true
   end
 end

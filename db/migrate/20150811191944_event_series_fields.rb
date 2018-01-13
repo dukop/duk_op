@@ -1,4 +1,4 @@
-class EventSeriesFields < ActiveRecord::Migration
+class EventSeriesFields < ActiveRecord::Migration[4.2]
   def change
   	change_column :event_series, :expiry, :date
   	add_column :event_series, :start_date, :date

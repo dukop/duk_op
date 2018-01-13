@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe AnalyticsService do
+  before { Event.delete_all }
   describe 'group_by' do
     before do
       FactoryGirl.create(:ahoy_event_frontpage)
@@ -43,7 +44,7 @@ describe AnalyticsService do
       expect(subject.keys.size).to eql 2
     end
     it 'should only include the relevant events' do
-      expect(subject.values).to eql %w(1 1)
+      expect(subject.values).to eql [ 1, 1 ]
     end
     context 'when given an invalid interval' do
       let(:interval) { 'invalid' }
@@ -67,10 +68,10 @@ describe AnalyticsService do
       expect(subject.keys.size).to eql 2
     end
     it 'should only include the relevant events' do
-      expect(subject.values).to eql %w(1 1)
+      expect(subject.values).to eql [1, 1]
     end
     context 'when supplied a start date and end date' do
-      let(:start_date) { DateTime.now - 2.weeks }
+      let(:start_date) { DateTime.now - 3.weeks }
       let(:end_date) { DateTime.now + 3.weeks }
       subject { described_class.events_created(interval, start_date) }
       it 'should only include events within the scope' do

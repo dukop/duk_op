@@ -8,7 +8,7 @@ describe EventsController do
     context 'a normal event' do
       render_views
       before do
-        get :show, id: event
+        get :show, params: { id: event }
       end
 
       it 'should return the event itself' do
@@ -29,7 +29,7 @@ describe EventsController do
 
       it 'should return all the events comments' do
         c = FactoryGirl.create(:comment, event: event)
-        get :show, id: event
+        get :show, params: { id: event }
         expect(assigns(:event).comments.first).to eql c
       end
     end
@@ -38,7 +38,7 @@ describe EventsController do
   describe 'GET#debug' do
     let(:event) { FactoryGirl.create(:event) }
     it 'should load a page' do
-      get :debug, id: event
+      get :debug, params: { id: event }
       expect(response.status).to eql 200
     end
   end

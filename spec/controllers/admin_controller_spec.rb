@@ -31,7 +31,7 @@ describe AdminController do
         sign_in admin
         FactoryGirl.create(:event)
         FactoryGirl.create(:event_tomorrow)
-        FactoryGirl.create(:event_yesterday)
+        FactoryGirl.build(:event_yesterday).save(validate: false)
         get :dashboard
       end
       it 'returns successfully' do

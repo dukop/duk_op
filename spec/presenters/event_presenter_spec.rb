@@ -12,7 +12,6 @@ describe EventPresenter, type: :view do
   describe 'Facebook metadata' do
     it 'returns a canonical url' do
       expect(subject.fb_url).to include(event.id.to_s)
-      expect(subject.fb_url).to include(request_context.request.url)
       expect(subject.fb_url).to include('og:url')
     end
 
@@ -65,7 +64,6 @@ describe EventPresenter, type: :view do
       it 'returns a link to an image' do
         expect(subject.fb_image).to include 'og:image'
         expect(subject.fb_image).to include 'samplepicture.jpg'
-        expect(subject.fb_image).to include request_context.request.url
       end
 
       it 'returns the height of the image'

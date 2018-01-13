@@ -8,13 +8,13 @@ describe Location do
 
   it 'should save a valid location' do
     l = Location.new(@location)
-    expect(l.valid?).to be_true
+    expect(l.valid?).to be true
   end
 
   it 'should refuse to save without a name' do
     @location.delete(:name)
     l = Location.new(@location)
-    expect(l.valid?).to be_false
+    expect(l.valid?).to be false
   end
 
   describe 'display name' do

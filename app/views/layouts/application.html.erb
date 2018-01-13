@@ -1,138 +1,56 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title><%= page_title %></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%# We get some special js for admins  %>
-  <%= content_for :special_scripts %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-  <%# Add Google verification tag for production only %>
-  <% if ENV['RAILS_ENV'] == 'production' && (ENV['STAGING'].blank? || ENV['STAGING'] != '1') %>
-    <meta name="google-site-verification" content="RijEG_DoxoqsXGbLPFlLEx96pwlGfj1lYcWoRGmrk6s" />
-  <% end %>
+<title><%= page_title %></title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0,initial-scale=1.0" />
+<%= content_for :meta_tags %>
+<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+<%= csrf_meta_tags %>
+<div class="lock-body" id="js-lock-body">
 
-  <%= content_for :meta_tags %>
+    <header>
+        <div class="page-container">
+            <div class="header">
+                <div class="header__logo">
+                    <%= link_to root_path do %>
+                        <%= render partial: 'shared/logo' %>
+                    <% end %>
+                </div>
+                <div class="header__burger js-toggle" data-element="js-controls">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <%= link_to t('.new'), new_event_path, class: 'header__link' %>
+                <%= link_to t('.login'), user_session_path, class: 'header__link' %>
 
-  <script type="text/javascript">
-      <%#
-      Make our translations accessible to javascript
-      Note that it needs to be here rather than in javascript
-      as javascript will be precompiled makings its variables static.
-      #%>
-      window.i18n = <%= current_translations.to_json.html_safe %>;
-      window.locale = '<%= I18n.locale %>';
-  </script>
-</head>
-<body>
+            </div>
+        </div>
+    </header>
+    <%= yield %>
 
-<!-- Menu navigation bar -->
-<nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
-        <span class="sr-only">Toggle main navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-user">
-        <span class="sr-only">Toggle main navigation</span>
-        <%= bootstrap_glyphicon('user') %>
-      </button>
-    </div>
-
-    <div class="navbar-user collapse navbar-collapse" id="navbar-user">
-      <ul class="nav navbar-nav">
-        <li class="menu-text">
-          <%= link_to new_event_path do %>
-              <%= bootstrap_glyphicon('pencil', nil) %>
-              <%= t('.new') %>
-          <% end %>
-        </li>
-        <% if current_user %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                <%= bootstrap_glyphicon('user') %>
-                <%= username(current_user) %>
-                <span class="caret"></span>
-              </a>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <%= link_to t('.my_page'), current_user, class: '' %>
-              </li>
-              <% if current_user && current_user.is_admin? %>
-                <li>
-                  <%= link_to 'Dashboard', admin_dashboard_path %>
-                </li>
-              <% end %>
-              <li>
-                <%= link_to t('.logout'), destroy_user_session_path, method: :delete, class: '' %>
-              </li>
-            </ul>
-            </li>
-        <% else %>
-            <li class="menu-text">
-              <%= link_to user_session_path do %>
-                  <%= bootstrap_glyphicon('user') %>
-                  <%= t('.login') %>
-              <% end %>
-            </li>
-        <% end %>
-        <%= render partial: 'layouts/lang_selector' %>
-      </ul>
-    </div>
-
-    <div class="site-logo hidden-xs">
-      <%= link_to root_path do %>
-        <%= image_tag("dukop_small.png", alt: t('.link_to_root')) %>
-      <% end %>
-    </div>
-
-    <div class="navbar-main collapse navbar-collapse" id="navbar-main">
-      <ul class="nav navbar-nav">
-        <li class="menu-text">
-          <%= link_to root_path do %>
-              <%= bootstrap_glyphicon('home') %>
-              <%= t('.calendar') %>
-          <% end %>
-        </li>
-        <li class="menu-text">
-          <%= link_to locations_path do %>
-            <%= bootstrap_glyphicon('map-marker') %>
-            <%=  t('.locations') %>
-          <% end %>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle menu-text" data-toggle="dropdown" role="button" aria-expanded="false">
-            <%= bootstrap_glyphicon('info-sign') %>
-            <%= t('.about') %><span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <li><%= link_to t(:news), news_path %></li>
-            <li><%= link_to t('.about_project'), page_path('about') %></li>
-            <li><%= link_to t('.security'), page_path('security') %></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-</nav>
-
-<div class="container">
-  <div class="row">
-    <% if notice.present? %>
-        <%= bootstrap_success(notice) %>
-    <% end %>
-    <% if alert.present? %>
-        <%= bootstrap_danger(alert) %>
-    <% end %>
-  </div>
-  <%= yield %>
-</div>
-</div>
-</div>
-</body>
-</html>
+    <footer>
+        <div class="page-container">
+            <div class="footer">
+                <div class="footer__content">
+                    <div class="footer__about">
+                        <h2 class="title title--footer">Om os</h2>
+                        <p><%= t ('about.short') %></p>
+                    </div>
+                    <div class="footer__news">
+                        <h2 class="title title--footer">Nyt</h2>
+                        <div class="news">
+                            <% @posts.each do |post| %>
+                                <a href="<%= post_path(post) %>" class="news__link">
+                                <div class="news__date">
+                                    <%= post.created_at.strftime('%d.%m.%y') %>
+                                </div>
+                                <div class="news__title">
+                                    <%= post.title %>
+                                </div>
+                            </a>
+                        <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>

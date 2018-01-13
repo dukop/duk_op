@@ -1,27 +1,29 @@
-<h3><%= t 'accounts.title' %></h3>
-<div class="list-group">
-  <%= link_to(user_session_path, class: 'list-group-item active') do %>
-      <h4 class="list-group-item-heading">
-        <%= t('accounts.login.title') %>
-      </h4>
-      <p class="list-group-item-text">
-        <%= t('accounts.login.explanation') %>
-      </p>
-  <% end %>
-  <%= link_to(new_registration_path(User), class: 'list-group-item') do %>
-      <h4 class="list-group-item-heading">
-        <%= t('accounts.standard.title') %>
-      </h4>
-      <p class="list-group-item-text">
-        <%= t('accounts.standard.explanation') %>
-      </p>
-  <% end %>
-  <%= link_to({ controller: '/anonymous_user', action: 'new' }, { class:  'list-group-item' }) do  %>
-      <h4 class="list-group-item-heading">
-        <%= t('accounts.onetime.title') %>
-      </h4>
-      <p class="list-group-item-text">
-        <%= t('accounts.onetime.explanation').html_safe %>
-      </p>
-  <% end %>
+<div class="page-container">
+    <div class="card">
+    <h1 class="title"><%= t 'accounts.title' %></h1>
+        <%= link_to(user_session_path, class: 'list-group-item active') do %>
+            <h4 class="list-group-item-heading">
+                <%= t('accounts.login.title') %>
+            </h4>
+            <p class="list-group-item-text">
+            <%= t('accounts.login.explanation') %>
+            </p>
+        <% end %>
+        <%= link_to(new_registration_path(User), class: 'list-group-item') do %>
+            <h4 class="list-group-item-heading">
+                <%= t('accounts.standard.title') %>
+            </h4>
+            <p class="list-group-item-text">
+            <%= t('accounts.standard.explanation') %>
+            </p>
+        <% end %>
+        <%= link_to({ controller: '/anonymous_user', action: 'new' }, { class:  'list-group-item' }) do  %>
+            <h4 class="list-group-item-heading">
+                <%= t('accounts.onetime.title') %>
+            </h4>
+            <p class="list-group-item-text">
+            <%= t('accounts.onetime.explanation').html_safe %>
+            </p>
+        <% end %>
+    </div>
 </div>

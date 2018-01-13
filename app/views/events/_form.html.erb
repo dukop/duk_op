@@ -1,172 +1,102 @@
-<%= simple_form_for @event, html: { multipart: true } do |f| %>
+<%= form_for @event, html: { multipart: true, name: 'createForm' } do |f| %>
 
+    <div class="create-form__row">
+        <%= f.label :title, class: 'create-form__label' %>
+        <div class="create-form__inputs">
+            <%= f.text_field :title, class: 'create-form__input' %>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :picture, class: 'create-form__label' %>
+        <div>
+          <%= label_tag 'uploadFile', 'Upload file', class: 'create-form__file' %>
+          <%= f.file_field :picture, id: 'uploadFile' %>
+          <div class="create-form__info">
+              Only PNGs or JPEGs CHANGEME....
+          </div>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :short_description, class: 'create-form__label' %>
+        <div class="create-form__inputs">
+            <%= f.text_area :short_description, class: 'create-form__input' %>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :categories, class: 'create-form__label' %>
+        <div>
+            <div id="selectList" class="create-form__select-list">
+                <% Category.all.each do |c| %>
+                    <%= check_box_tag :category, c.id, false, id: c.id %>
+                    <%= label_tag c.id, c.danish %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :location, class: 'create-form__label' %>
+        <div class="create-form__inputs">
+            <%= f.text_field :location, class: 'create-form__input' %>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= label_tag '', 'Tidspunkt', class: 'create-form__label' %>
+        <div>
+            <div>
+                <div id="timeInput" class="create-form__date">
+                    <div>
+                        <div>
+                          <%= f.label :start_time, class: 'create-form__label' %>
+                        </div>
+                        <div>
+                            <%= f.time_field :start_time, step: 15 %>
+                            <%= f.date_field :start_time %>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                          <%= f.label :end_time, class: 'create-form__label' %>
+                        </div>
+                        <div>
+                            <%= f.time_field :end_time, step: 15 %>
+                            <%= f.date_field :end_time %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :link, class: 'create-form__label' %>
+        <div>
+            <%= f.url_field :link, class: 'create-form__input' %>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= label_tag '', 'Price', class: 'create-form__label' %>
+        <div>
+          <%= check_box_tag :priceCheck %>
+          <%= label_tag :priceCheck, 'Does it cost something? FIXME' %>
+        </div>
+        <div>
+          <%= f.text_field :price, id: 'priceInput', class: 'create-form__input', style: 'display: none;' %>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :comments_enabled, class: 'create-form__label' %>
+        <div>
+            <%= f.check_box_tag :comments_enabled %>
+            <%= f.label :comments_enabled %>
+        </div>
+    </div>
+    <div class="create-form__row">
+        <%= f.label :published, class: 'create-form__label' %>
+        <div>
+            <%= f.check_box_tag :published %>
+            <%= f.label :published %>
+        </div>
+    </div>
+    <%= f.submit 'Create event', class: 'create-form__submit' %>
 
-<div class="row">
-  <div class="col-xs-12">
-    <%= f.input :title %>
-  </div>
-</div>
-<% if @event.persisted? %>
-<div class="row">
-  <div class="col-xs-12">
-    <%= f.input :cancelled, wrapper_html: { class: 'checkbox' },
-    input_html: { class: 'checkbox'}, label_html: { class: 'override'} %>
-  </div>
-</div>
 <% end %>
-
-<div class="row">
-  <div class="col-xs-12">
-    <%= f.label :picture %>
-    <span class="btn btn-default btn-file">
-      <span id="js_button_text">
-        <%# show the filename in the button if there is a file %>
-        <% if @event.picture.present? %>
-        <%= @event.picture.original_filename %>
-        <% else %>
-        <%= t '.choose_file' %>
-        <% end %>
-      </span>
-      <%= f.input :picture, label: false %>
-    </span>
-    <%= bootstrap_glyphicon('trash', 'btn btn-default') if @event.picture.present? %>
-    <input type="hidden" name="remove_picture" id="event_remove_picture"/>
-    <br/>
-    <br/>
-    <%= f.hint t('.picture.warning'), data: { role: 'picture_warning' } %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-12">
-    <%= f.input :short_description %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12 col-sm-5">
-    <%= f.association :categories, label_method: ->(obj){ obj.send(t(:language)).titleize }, required: true,
-    input_html: { class: 'selectpicker', title: t('.choose_category') }
-    %>
-  </div>
-  <div class="col-xs-12 col-sm-5 col-sm-offset-1">
-    <%= f.label :location_id %>
-    <%# If we already have a location the placeholder should be that location's name %>
-    <% location_name = @event.location.display_name rescue nil %>
-    <%= text_field_tag(
-      'location-typeahead', location_name,
-      placeholder: "#{location_name || t('.choose_location')}",
-      class: "typeahead form-control",
-        data: {
-          api_path: locations_path,
-          remote_path: new_location_path,
-          label: t('.create_location'),
-          display_key: 'display_name',
-          header: t('.typeahead_header'),
-          target: '#event_location_id',
-          empty_message: t('.empty_location')
-        }
-        )
-        %>
-        <%= f.full_error :location_id %>
-        <%= link_to new_location_path, class: 'btn btn-default btn-sm pull-right',
-        data: {
-          remote: true,
-          toggle: 'modal',
-          target: 'remote_form_modal',
-          update_val: '#location-typeahead',
-          update_field: 'event[location_id]',
-          modal_title: t('.new_location_title')
-        } do %>
-        <%= t('.create_location') %>
-        <%= bootstrap_glyphicon('plus') %>
-        <% end %>
-
-        <%= f.input :location_id, as: :hidden %>
-
-      </div>
-    </div>
-
-    <%# This dialog is only for new events %>
-    <% unless @event.persisted? %>
-      <div id='check_recurring' class="checkbox">
-        <label>
-          <%= check_box_tag :recurring, 'yes', false,
-          data: { function: 'show', target: '#repeating_control', hide: '#standard_time_control' }
-          %>
-          <%= t '.repeating_event' %>
-        </label>
-      </div>
-
-      <div id="repeating_control" class='form-inline row-fluid' style="display: none;">
-        <h2><%= t 'event_series.form.repetition_header' %></h2>
-        <%= f.simple_fields_for :event_series do |s| %>
-         <%= render partial: 'event_series/repeating_control', locals: { builder: s,  coming_events: false } %>
-        <% end %>
-      </div>
-    <% end %>
-
-
-     <div id="standard_time_control" class="row">
-      <%= f.input :start_time, start_year: Date.today.year, end_year: Date.today.year + 1, minute_step: 15 %>
-      <%= f.input :end_time, start_year: Date.today.year, end_year: Date.today.year + 1, minute_step: 15 %>
-      </div>
-
-     <div class="row">
-      <div class="col-xs-12">
-        <%= f.input :link, as: :url %>
-      </div>
-    </div>
-
-    <%# event price field should only be shown a) if there is already a price
-    or b) if the user has checked this box to say that there is a price
-    Note the javascript hooks on the data elements. %>
-    <% if @event.price.blank? %>
-    <div class="input boolean optional event_price_enabled checkbox">
-      <label class="boolean optional control-label override checkbox" for="event_price_enabled">
-        <input class="boolean optional checkbox" id="event_price_enabled"
-        name="event[price_enabled]" value="1" type="checkbox"
-        data-function="show" data-target=".event_price">
-        <%= t '.enable_price' %>
-      </label>
-    </div>
-    <% end %>
-
-    <% if current_user.is_admin? %>
-    <div class="input boolean optional checkbox">
-      <label class="boolean optional control-label override checkbox" for="event_featured">
-      <%= f.input_field :featured, boolean_style: :inline, class: 'checkbox no-form-control' %>
-      <%= t '.feature_event?' %>
-      </label>
-    </div>
-    <% end %>
-
-    <div class="row">
-      <div class="col-xs-12">
-        <% visibility =  @event.price.present? ? 'block' : 'none' %>
-        <%= f.input :price, wrapper_html: { style: "display: #{visibility}"} %>
-      </div>
-    </div>
-    <div class="input boolean optional event_comments_enabled checkbox">
-      <label class="boolean optional control-label override checkbox" for="event_comments_enabled">
-        <%= f.input_field :comments_enabled, boolean_style: :inline, class: 'checkbox no-form-control' %>
-        <%= t 'simple_form.labels.defaults.comments_enabled' %>
-      </label>
-    </div>
-    <div class="input boolean optional checkbox">
-      <label class="boolean optional control-label override checkbox" for="event_published">
-        <%= f.input_field :published, boolean_style: :inline, class: 'checkbox no-form-control' %>
-        <%= t 'simple_form.labels.defaults.published' %>
-      </label>
-      <span class="text-info">
-        <%= t('simple_form.labels.defaults.published_help') %>
-      </span>
-    </div>
-    <br/>
-    <div class="row">
-      <div class="col-xs-12">
-        <%= f.button :submit, class: 'btn btn-primary' %>
-      </div>
-    </div>
-    <br/>
-    <% end %>
-    <%= render partial: 'layouts/modal_wrapper' %>
+<%= render partial: 'form_js' %>

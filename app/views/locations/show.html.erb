@@ -1,21 +1,20 @@
 <%= schema_json @location %>
 <%= auto_discovery_link_tag(:rss, {format: :rss}, {title: "Feed for location #{@location.display_name}"}) %>
-<div class="event_show">
-  <h1><%= @location.try(:display_name) %></h1>
-  <h2><%= @location.address %></h2>
-
-  <p><%= auto_link(simple_format(@location.try(:description))) %></p>
-  <p><%= auto_link(@location.try(:link)) %></p>
-
-  <% if current_user && current_user.can_edit?(@location) %>
-      <%= link_to t('.edit_location'), edit_location_path %>
-      <%= link_to t('.delete_location'), location_path, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
-  <div>
-    <h2><%= t :coming_events %></h2>
-    <% if @calendar.in_progress.size > 0 %>
-        <%= render partial: 'calendar/day', object: @calendar.in_progress, locals: { id: 'inProgress' } %>
-    <% end %>
-    <%= render partial: 'calendar/day', collection: @calendar.days  %>
-  </div>
+<div class="location-card">
+    <div class="card__layout">
+        <div class="card__text">
+            <div class="card__header">
+                <h1><%= @location.try(:display_name) %></h1>
+                <h2><%= @location.address %></h2>
+            </div>
+            <div class="card__main">
+                <p><%= auto_link(simple_format(@location.try(:description))) %></p>
+                <p><%= auto_link(@location.try(:link)) %></Ilsp>
+                <% if current_user && current_user.can_edit?(@location) %>
+                    <%= link_to t('.edit_location'), edit_location_path %>
+                    <%= link_to t('.delete_location'), location_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% end %>
+            </div>
+        </div>
+    </div>
 </div>

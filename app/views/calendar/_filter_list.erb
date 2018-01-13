@@ -1,7 +1,7 @@
 <% filter_objects.each do |arr| %>
     <dd>
       <% loc_name, loc_total = arr %>
-      <% loc_id = loc_name.parameterize('_') %>
+      <% loc_id = loc_name.parameterize(separator: '_') %>
       <%= render_filter_link(loc_id, loc_name, loc_total, data_type) %>
     </dd>
 <% end %>

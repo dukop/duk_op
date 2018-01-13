@@ -1,4 +1,4 @@
-class RenameCategoryFields < ActiveRecord::Migration
+class RenameCategoryFields < ActiveRecord::Migration[4.2]
   def change
     rename_column :categories, :key, :danish
     rename_column :categories, :description, :english
