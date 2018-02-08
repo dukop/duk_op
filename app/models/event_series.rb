@@ -46,9 +46,21 @@ class EventSeries < ActiveRecord::Base
   def cascade_update
     return unless coming_events.present?
     coming_events.all.each do |event|
-      # We retain the existing date but update to reflect any changes to start time or end time
-      start_time = DateTime.new(event.start_time.year, event.start_time.month, event.start_time.day, self.start_time.hour, self.start_time.min, 0, self.start_time.zone)
-      end_time = DateTime.new(event.end_time.year, event.end_time.month, event.end_time.day, self.end_time.hour, self.end_time.min, 0, self.end_time.zone)
+      
+      start_time = DateTime.new(event.start_time.year, event.start_time.month, event.start_time.day, self.start_time.hour, self.start_time.min, 0, 0)
+      end_time = DateTime.new(event.end_time.year, event.end_time.month, event.end_time.day, self.end_time.hour, self.end_time.min, 0, 0)
+
+      # Timezone corrections: Use the timezone of the specific period of the
+      # dates of the event.
+      zone = TZInfo::Timezone.new('Europe/Copenhagen')
+      start_period = zone.period_for_local(event.start_time).offset.utc_total_offset
+      end_period = zone.period_for_local(event.end_time).offset.utc_total_offset
+
+      # Subtract the offset because Rails will assume that it's UTC when storing
+      # in the database. Setting offset=>1234 does *NOT* work
+      start_time = start_time.advance(:seconds => -start_period)
+      end_time = end_time.advance(:seconds => -end_period)
+      
       event.update(event_attributes.merge(start_time: start_time, end_time: end_time))
     end
     date_last_existing = coming_events.order(:start_time).last.start_time.to_date
@@ -99,6 +111,20 @@ class EventSeries < ActiveRecord::Base
     return if day_as_date < DateTime.now.to_date
     return if day_as_date > expiry
     return if day_as_date.in? child_dates
+
+    # Hard-coded timezone
+    zone = TZInfo::Timezone.new('Europe/Copenhagen')
+
+    # Assume we have the right timezone at 10 AM
+    when_dtm = DateTime.new(day_as_date.year, day_as_date.month, day_as_date.day, 10, 0, 0)
+    # Fetch a UTC offset for that date
+    when_offset = zone.period_for_local(when_dtm).offset.utc_total_offset
+
+    # Subtract the offset because Rails will assume that it's UTC when storing
+    # in the database. Setting offset=>1234 does *NOT* work
+    start_time = self.start_time.advance(:seconds => -when_offset)
+    end_time = self.end_time.advance(:seconds => -when_offset)
+    
     child = Event.from_date_and_times(day_as_date, start_time, end_time, event_attributes)
     unless child.save
       logger.error "event could not be saved with rule #{rule} and date #{day_as_date}"
