@@ -1,4 +1,5 @@
 class AnonymousUserController < ApplicationController
+  layout 'single_card'
   def new
     @user = User.new(password: 'fake_password')
   end

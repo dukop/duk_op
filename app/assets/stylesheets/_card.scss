@@ -49,7 +49,7 @@
 .card__media img {
   display: block;
   min-width: 100%;
-
+  object-fit: cover;
 }
 
 .card__text {

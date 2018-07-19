@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-
+  layout 'single_card'
   before_action :authenticate_user!, only: [:dashboard]
   before_action :admin_user?, only: [:dashboard]
 

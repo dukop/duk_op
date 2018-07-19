@@ -1,29 +1,24 @@
-<div class="page-container">
-    <div class="card">
-    <h1 class="title"><%= t 'accounts.title' %></h1>
-        <%= link_to(user_session_path, class: 'list-group-item active') do %>
-            <h4 class="list-group-item-heading">
-                <%= t('accounts.login.title') %>
-            </h4>
-            <p class="list-group-item-text">
-            <%= t('accounts.login.explanation') %>
-            </p>
-        <% end %>
-        <%= link_to(new_registration_path(User), class: 'list-group-item') do %>
-            <h4 class="list-group-item-heading">
-                <%= t('accounts.standard.title') %>
-            </h4>
-            <p class="list-group-item-text">
-            <%= t('accounts.standard.explanation') %>
-            </p>
-        <% end %>
-        <%= link_to({ controller: '/anonymous_user', action: 'new' }, { class:  'list-group-item' }) do  %>
-            <h4 class="list-group-item-heading">
-                <%= t('accounts.onetime.title') %>
-            </h4>
-            <p class="list-group-item-text">
-            <%= t('accounts.onetime.explanation').html_safe %>
-            </p>
-        <% end %>
+<div class="select-account__header">
+      <h1 class="card__title"><%= t 'accounts.title' %></h1>
     </div>
-</div>
+    <div class="select-account__options">
+      <%= link_to(user_session_path, class: 'select-account__option select-account__option--login') do %>
+          <h4 class="select-account__title">
+              <%= t('accounts.login.title') %>
+          </h4>
+          <%= t('accounts.login.explanation') %>
+      <% end %>
+      <%= link_to(new_registration_path(User), class: 'select-account__option select-account__option--new') do %>
+          <h4 class="select-account__title">
+              <%= t('accounts.standard.title') %>
+          </h4>
+          <%= t('accounts.standard.explanation') %>
+      <% end %>
+      <%= link_to({ controller: '/anonymous_user', action: 'new' }, { class:  'select-account__option select-account__option--anon' }) do  %>
+          <h4 class="select-account__title">
+              <%= t('accounts.onetime.title') %>
+          </h4>
+          <%= t('accounts.onetime.explanation').html_safe %>
+      <% end %>
+    </div>
+        

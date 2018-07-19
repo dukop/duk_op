@@ -1,4 +1,5 @@
 class EventSeriesController < ApplicationController
+  layout 'single_card'
   before_action :set_event_series, only: [:show, :edit, :update, :destroy, :delete_events]
   #TODO: shouldn't we authenticate the user before the create action also?
   before_action :authenticate_user!, only: [:new, :edit, :update, :destroy, :delete_events]

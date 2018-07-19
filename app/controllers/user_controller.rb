@@ -1,4 +1,5 @@
 class UserController < ApplicationController
+  layout 'single_card'
   before_action :set_user, only: [:show, :edit, :update, :destroy, :make_admin]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :make_admin]
   before_action :authorised_user?, only: [:edit, :update, :destroy]

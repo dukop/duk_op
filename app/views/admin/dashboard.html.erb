@@ -1,23 +1,15 @@
 
-<div class="page-container">
-  <div class="card card--static">
-    <div class="card__text">
-      <%= render partial: 'navigation' %>
-        <div class="row">
-          <div class="col-md-8">
-            <ul class="list-inline pull-right">
-              <li><strong>Sortér efter:</strong></li>
-              <% AdminController::SORT_TYPES.each do |type| %>
-                  <%= dashboard_sort_link(type, @sort) %>
-              <% end %>
-            </ul>
-          </div>
-
-        </div>
-        <hr/>
-        <%= render partial: 'event', collection: @events %>
-    </div>
-
+<%= render partial: 'navigation' %>
+<div class="row">
+  <div class="col-md-8">
+    <ul class="list-inline pull-right">
+      <li><strong>Sortér efter:</strong></li>
+      <% AdminController::SORT_TYPES.each do |type| %>
+      <%= dashboard_sort_link(type, @sort) %>
+      <% end %>
+    </ul>
   </div>
 
 </div>
+<hr/>
+<%= render partial: 'event', collection: @events %>

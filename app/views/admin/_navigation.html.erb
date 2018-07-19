@@ -1,32 +1,23 @@
 <%= admin_scripts %>
-
-<div class="container">
-  <h1>Administrator Dashboard</h1>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <ul class="list-inline">
-        <li>
-          <%= link_to('Dashboard', admin_dashboard_path) %>
-        </li>
-        <li>
-          <%= link_to(t('layouts.application.posts'), posts_path) %>
-        </li>
-        <li>
-          <%= link_to(t('layouts.application.users'), users_path) %>
-        </li>
-        <li>
-          <%= link_to(t('layouts.application.categories'), categories_path) %>
-        </li>
-        <li>
-          <%= link_to(t('layouts.application.series'), admin_series_path) %>
-        </li>
-        <li>
-          <%= link_to('Analytics', admin_analytics_path) %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+<nav class="dashboard__nav">
+  <ul>
+    <li>
+      <%= link_to('Dashboard', admin_dashboard_path) %>
+    </li>
+    <li>
+      <%= link_to(t('layouts.application.posts'), posts_path) %>
+    </li>
+    <li>
+      <%= link_to(t('layouts.application.users'), users_path) %>
+    </li>
+    <li>
+      <%= link_to(t('layouts.application.categories'), categories_path) %>
+    </li>
+    <li>
+      <%= link_to(t('layouts.application.series'), admin_series_path) %>
+    </li>
+    <li>
+      <%= link_to('Analytics', admin_analytics_path) %>
+    </li>
+  </ul>
+</nav>
