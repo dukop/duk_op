@@ -7,6 +7,7 @@ gem 'paperclip', '~> 4.2'
 gem 'lograge'
 gem 'chronic'
 gem 'rails_autolink'
+gem 'turbolinks'
 
 group :production do
   gem 'pg'

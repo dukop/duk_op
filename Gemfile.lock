@@ -228,6 +228,9 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.7)
+    turbolinks (5.2.0)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -282,6 +285,7 @@ DEPENDENCIES
   simple_form
   sqlite3
   therubyracer
+  turbolinks
   uglifier (>= 1.3.0)
   unicorn
   unicorn-worker-killer
