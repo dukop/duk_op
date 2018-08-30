@@ -29,6 +29,7 @@ en:
     formats:
       header: ! '%a %e. %b'
       brief: ! '%e %b'
+      full: ! '%A d. %e. %B'
   time:
     formats:
       calendar: ! '%a %e. %b %H:%M'

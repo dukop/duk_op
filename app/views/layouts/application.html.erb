@@ -28,9 +28,22 @@
                     <div></div>
                     <div></div>
                 </div>
-                <%= link_to t('.new'), new_event_path, class: 'header__link' %>
-                <%= link_to(t('.login'), user_session_path, class: 'header__link') unless user_signed_in? %>
-                <%= link_to(t('.logout'), destroy_user_session_path, class: 'header__link', method: :delete) if user_signed_in? %>
+                <%= link_to new_event_path, class: 'header__link' do %>
+                    <%= image_tag 'create.svg' %>
+                    <%= t('.new') %>
+                <% end %>
+
+                <% if I18n.locale == :en %>
+                    <%= link_to("På dansk", url_for(locale: :da), class: 'header__link') %>
+                <% else %>
+                    <%= link_to("In English", url_for(locale: :en), class: 'header__link') %>
+                <% end %>
+
+                <% if user_signed_in? %>
+                    <%= link_to(t('.logout'), destroy_user_session_path, class: 'header__link', method: :delete) %>
+                <% else %>
+                    <%= link_to(t('.login'), user_session_path, class: 'header__link') %>
+                <% end %>
 
             </div>
         </div>
