@@ -8,6 +8,7 @@
 <link rel="apple-touch-icon" href="<%= image_path('favicon.png') %>"> 
 
 <%= content_for :meta_tags %>
+<%= javascript_include_tag "application" %>
 <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
 <%= csrf_meta_tags %>
 </head>
@@ -27,9 +28,22 @@
                     <div></div>
                     <div></div>
                 </div>
-                <%= link_to t('.new'), new_event_path, class: 'header__link' %>
-                <%= link_to(t('.login'), user_session_path, class: 'header__link') if !user_signed_in? %>
-                <%= link_to(t('.logout'), destroy_user_session_path, class: 'header__link') if user_signed_in? %>
+                <%= link_to new_event_path, class: 'header__link' do %>
+                    <%= image_tag 'create.svg' %>
+                    <%= t('.new') %>
+                <% end %>
+
+                <% if I18n.locale == :en %>
+                    <%= link_to("På dansk", url_for(locale: :da), class: 'header__link') %>
+                <% else %>
+                    <%= link_to("In English", url_for(locale: :en), class: 'header__link') %>
+                <% end %>
+
+                <% if user_signed_in? %>
+                    <%= link_to(t('.logout'), destroy_user_session_path, class: 'header__link', method: :delete) %>
+                <% else %>
+                    <%= link_to(t('.login'), user_session_path, class: 'header__link') %>
+                <% end %>
 
             </div>
         </div>
@@ -45,7 +59,7 @@
                         <p><%= t ('about.short') %></p>
                     </div>
                     <div class="footer__news">
-                        <h2 class="title title--footer">Nyt</h2>
+                        <h2 class="title title--footer"><%= t(:news) %></h2>
                         <div class="news">
                             <% @posts.each do |post| %>
                                 <a href="<%= post_path(post) %>" class="news__link">

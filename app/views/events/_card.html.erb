@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-    <%= link_to('', event_path(presenter.object), class: "card__toggle js-toggle-card") %>
+    <%= link_to('', event_path(presenter.object), class: "card__toggle js-toggle-card", data: { no_turbolink: true }) %>
 </div>
 
 
