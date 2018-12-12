@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  validates :title, :short_description, :start_time, :end_time, :location_id, :user_id, :categories, presence: true
+  validates :title, :short_description, :start_time, :end_time, :location_id, :picture, :user_id, :categories, presence: true
   validate :must_be_future_event
   validate :must_be_valid_duration
 
