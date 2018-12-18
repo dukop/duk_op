@@ -129,8 +129,8 @@ da:
       edit_event: "Redigerer begivenhed"
     new:
       new_event: "Opret begivenhed"
-    event_updated: "Ændringer til <a href=\"%{link}\" class='alert-link'>%{name}</a> gemt!"
-    event_created: "Event <a href=\"%{link}\" class='alert-link'>%{name}</a> oprettet!"
+    event_updated: "Ændringer til <a href=\"%{link}\" class='alert-link'>din event</a> gemt!"
+    event_created: "<a href=\"%{link}\" class='alert-link'>Din event</a> er oprettet!"
     event_deleted: "Event slettet"
     show:
       link: "Mere info"
@@ -299,8 +299,8 @@ da:
                   Ved at oprette en serie med en bestemt regel opretter du flere events på de datoer
                   givet i reglen. Efterfølgende kan du vælge at redigere disse forekomster enkeltvis
                   eller samlede ved at redigere i selv serien.
-    created: "Serie <a href=\"%{link}\">%{name}</a> oprettet med %{num_events} forekomster!"
-    updated: "Serie <a href=\"%{link}\">%{name}</a> med %{num_events} forekomster opdateret."
+    created: "<a href=\"%{link}\">Serie</a> oprettet med %{num_events} forekomster!"
+    updated: "<a href=\"%{link}\">Serie</a> med %{num_events} forekomster opdateret."
     deleted: "Serie %{name} og %{num_events} forekomster slettet."
     events_deleted: "%{number} events slettet"
     form:
