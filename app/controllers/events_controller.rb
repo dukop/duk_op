@@ -21,11 +21,11 @@ class EventsController < ApplicationController
       series_params = event_params.merge(event_params[:event_series]).except(:event_series, :featured)
       @event_series = EventSeries.new(series_params)
       saved = @event_series.save
-      notice = I18n.t('event_series.created', link: url_for(@event_series), name: @event_series.name, num_events: @event_series.coming_events.size)
+      notice = I18n.t('event_series.created', link: url_for(@event_series), num_events: @event_series.coming_events.size)
     else
       @event = Event.new(event_params.except('event_series'))
       saved = @event.save
-      notice = I18n.t('events.event_created', link: url_for(@event), name: @event.name)
+      notice = I18n.t('events.event_created', link: url_for(@event))
     end
 
     respond_to do |format|
@@ -47,7 +47,7 @@ class EventsController < ApplicationController
       if @event.update(user_params)
         destroy_image?
         format.html {
-          redirect_to root_path, notice: I18n.t('events.event_updated', link: url_for(@event), name: @event.name)
+          redirect_to root_path, notice: I18n.t('events.event_updated', link: url_for(@event))
         }
         format.json { head :no_content }
       else
