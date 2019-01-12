@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= page_title %></title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0,initial-scale=1.0" />
+  <!-- Shortcut icons (favicon) -->
+  <link rel="shortcut icon" href="<%= image_path('favicon.png') %>">
+  <link rel="apple-touch-icon" href="<%= image_path('favicon.png') %>">
+
+  <%= content_for :meta_tags %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="lock-body" id="js-lock-body">
+
+    <header>
+      <div class="page-container">
+        <div class="header">
+          <div class="header__logo">
+            <%= link_to root_path do %>
+            <%= render partial: 'shared/logo' %>
+            <% end %>
+          </div>
+          <div class="header__burger js-toggle" data-element="js-controls">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <%= link_to t('.new'), new_event_path, class: 'header__link' %>
+          <%= link_to t('.login'), user_session_path, class: 'header__link' %>
+
+        </div>
+      </div>
+    </header>
+    <div class="page-container">
+      <div class="card card--static">
+        <div class="card__text">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="page-container">
+        <div class="footer">
+          <div class="footer__content">
+            <div class="footer__about">
+              <h2 class="title title--footer">Om os</h2>
+              <p><%= t ('about.short') %></p>
+            </div>
+            <div class="footer__news">
+              <h2 class="title title--footer">Nyt</h2>
+              <div class="news">
+                <% @posts.each do |post| %>
+                <a href="<%= post_path(post) %>" class="news__link">
+                  <div class="news__date">
+                    <%= post.created_at.strftime('%d.%m.%y') %>
+                  </div>
+                  <div class="news__title">
+                    <%= post.title %>
+                  </div>
+                </a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+  </html>

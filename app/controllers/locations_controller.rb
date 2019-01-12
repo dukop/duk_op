@@ -1,4 +1,5 @@
 class LocationsController < ApplicationController
+  layout 'single_card'
   before_action :set_location, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
