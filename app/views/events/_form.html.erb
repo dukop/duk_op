@@ -1,3 +1,41 @@
+<style>
+
+#places li {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.js-enabled {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: #ddd;
+}
+#places input,
+.js-enabled input + label {
+    display: none;
+}
+#places input:checked + label {
+    background-color: #444;
+    color: #fff;
+}
+#places.js-active input + label,
+#places input.js-active + label {
+    display: block;
+    padding: 5px 10px;
+    border-bottom: 1px solid #aaa;
+}
+#showPlaces {
+    position: absolute;
+    right: 0;
+    margin-top: -30px;
+}
+</style>
 <% if @event.errors.any? %>
     <ul>
     <% @event.errors.messages.each do |key, val| %>
@@ -5,7 +43,7 @@
     <% end %>
     </ul>
 <% end %>
-<%= form_for @event, html: { multipart: true, name: 'createForm' } do |f| %>
+<%= form_for @event, html: { multipart: true, name: 'createForm', onsubmit: "return false;" } do |f| %>
 
     <div class="create-form__row">
         <%= f.label :title, class: 'create-form__label' %>
@@ -43,13 +81,20 @@
     <%= f.fields_for :location do |l| %>
       <div class="create-form__row">
         <%= f.label :location, class: 'create-form__label' %>
-        <div class="create-form__inputs">
-            <%= l.text_field :name, class: 'create-form__input', list: 'locations' %>
-            <datalist id="locations">
-              <% Location.all.each do |location| %>
-                <option data-street_address="<%= location.street_address %>" data-postcode="<%= location.postcode %>" data-town="<%= location.town %>" value-uppercase="<%= location.name.upcase %>" value="<%= location.name %>" label="<%= "#{location.street_address}, #{location.postcode} #{location.town}" %>" />
-              <% end %>
-            </datalist>
+        <div>
+            <input class="create-form__input" id="placeName" placeholder="Stednavn" autocomplete="off" />
+            <input class="create-form__input" id="placeAddress" placeholder="Adresse" />
+            <div style="position: relative">
+                <div id="showPlaces">Se steder</div>
+                <ul id="places">
+                  <% Location.all.each do |location| %>
+                      <li>
+                          <input data-address="<%= location.full_address %>" type="radio" name="places" id="<%="place-#{location.id}" %>" name="selectList" value="<%= location.id %>" data-name="<%= location.name %>"/>
+                          <%= content_tag(:label, location.name, for: "place-#{location.id}") %>
+                      </li>
+                  <% end %>
+                </ul>
+            </div>
         </div>
       </div>
       <div class="create-form__row">

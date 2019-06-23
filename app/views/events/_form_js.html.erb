@@ -1,24 +1,56 @@
 <script>
-  var locationName = document.getElementById('event_location_name');
-  locationName.addEventListener('input', function(e) {
-    var selectedOptions = document.querySelectorAll("#locations option[value-uppercase='"+e.target.value.toUpperCase()+"']");
-    if (selectedOptions.length > 0) {
-      var selectedOption = selectedOptions[0];
-      document.getElementById("event_location_street_address").value = selectedOption.dataset.street_address;
-      document.getElementById("event_location_street_address").disabled = true;
-      document.getElementById("event_location_postcode").value = selectedOption.dataset.postcode;
-      document.getElementById("event_location_postcode").disabled = true;
-      document.getElementById("event_location_town").value = selectedOption.dataset.town;
-      document.getElementById("event_location_town").disabled = true;
-    } else {
-      document.getElementById("event_location_street_address").value = "";
-      document.getElementById("event_location_street_address").disabled = false;
-      document.getElementById("event_location_postcode").value = "";
-      document.getElementById("event_location_postcode").disabled = false;
-      document.getElementById("event_location_town").value = "";
-      document.getElementById("event_location_town").disabled = false;
+    document.querySelector('#places').classList.add('js-enabled')
+
+const placesInputs = document.querySelectorAll('#places input')
+const placeName = document.querySelector('#placeName');
+const placeAddress = document.querySelector('#placeAddress');
+
+placeName.addEventListener('keyup', function (e) {
+    const key = e.which || e.keyCode;
+    if (key === 13 ) {
+        e.preventDefault()// 13 is enter
+        if (document.querySelectorAll('#places input.js-active').length !== 1) return
+        const str = placeName.value.toLowerCase();
+        const result = document.querySelector('#places input.js-active')
+        result.checked = true
+        placeName.value = result.dataset.name
+        placeAddress.value = result.dataset.address
+        placeAddress.disabled = true
+        placesInputs.forEach((el) => el.classList.remove('js-active'))
+        return
     }
-  });
+
+    const str = placeName.value.toLowerCase();
+    placesInputs.forEach(function (place) {
+        const placeText = place.dataset.name.toLowerCase() + '|' + place.dataset.address.toLowerCase()
+        if (str.length > 2 && placeText.indexOf(str)>-1) {
+            place.classList.add('js-active')
+        } else {
+            place.classList.remove('js-active')
+            place.checked = false
+            placeAddress.disabled = false
+            placeAddress.value = ''
+        }
+    })
+})
+
+const handleClick = (e) => {
+    if (e.target.checked) {
+        placeName.value = e.target.dataset.name
+        placeAddress.value = e.target.dataset.address
+        placeAddress.disabled = true
+        placesInputs.forEach(el => el.classList.remove('js-active'))
+        document.querySelector('#places').classList.remove('js-active')
+    }
+}
+
+placesInputs.forEach(el => el.addEventListener('click', handleClick))
+
+document.querySelector('#showPlaces').addEventListener('click', (e) => {
+    e.preventDefault()
+    console.log(e);
+    document.querySelector('#places').classList.toggle('js-active')
+})
 
 
   var priceCheck = document.getElementById('priceCheck')
